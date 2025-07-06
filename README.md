@@ -56,7 +56,6 @@ flask-app/
 
 ## .env file
 ```bash
-PORT=8080
 HEADER_TEXT="My Awesome App"
 IMAGE_URL=https://picsum.photos/400/300
 FLASK_DEBUG=false
