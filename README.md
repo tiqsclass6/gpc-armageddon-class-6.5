@@ -29,14 +29,14 @@ flask-app/
 ### Clone and setup
    ```bash
    git clone https://github.com/aaron-dm-mcdonald/cloud-run-ex.git
-   cd flask-app
-   pip install -r requirements.txt
+   cd cloud-run-ex
    ```
 
 ### Local Test
 
 1. **Run the app**
    ```bash
+   pip install -r requirements.txt
    python main.py
    ```
 
@@ -78,3 +78,9 @@ FLASK_DEBUG=false
 - `gcloud services enable artifactregistry.googleapis.com`
 - `gcloud services enable cloudbuild.googleapis.com`
 
+gcloud run deploy helloworld \
+  --source . \
+  --region europe-west1 \
+  --allow-unauthenticated \
+  --port 8080 \
+  --set-env-vars "NAME=World,PORT=8080"
