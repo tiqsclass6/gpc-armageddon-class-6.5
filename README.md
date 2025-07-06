@@ -73,3 +73,8 @@ FLASK_DEBUG=false
 - **python-dotenv** - Environment variable management
 - **gunicorn** - WSGI server for production
 
+## GCP APIs
+
+- `gcloud services enable artifactregistry.googleapis.com`
+- `gcloud services enable cloudbuild.googleapis.com`
+
