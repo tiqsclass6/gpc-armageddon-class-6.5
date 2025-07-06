@@ -7,7 +7,7 @@ A simple Flask web application that displays configurable content using environm
 
 ```
 flask-app/
-├── app.py                 # Main Flask application
+├── main.py                 # Main Flask application
 ├── templates/
 │   └── index.html        # HTML template
 ├── .env                  # Environment variables
@@ -26,27 +26,21 @@ flask-app/
 
 ## Quick Start
 
-### Local Development
-
-1. **Clone and setup**
+### Clone and setup
    ```bash
-   git clone <your-repo>
+   git clone https://github.com/aaron-dm-mcdonald/cloud-run-ex.git
    cd flask-app
    pip install -r requirements.txt
    ```
 
-2. **Configure environment**
+### Local Test
+
+1. **Run the app**
    ```bash
-   cp .env.example .env
-   # Edit .env with your values
+   python main.py
    ```
 
-3. **Run the app**
-   ```bash
-   python app.py
-   ```
-
-4. **Visit** `http://localhost:8080`
+2. **Visit** `http://localhost:8080`
 
 ### Google Cloud Run Deployment
 
@@ -63,7 +57,7 @@ flask-app/
 ## .env file
 ```bash
 PORT=8080
-HEADER_TEXT=My Awesome App
+HEADER_TEXT="My Awesome App"
 IMAGE_URL=https://picsum.photos/400/300
 FLASK_DEBUG=false
 ```
