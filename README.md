@@ -42,27 +42,6 @@ flask-app/
 
 2. **Visit** `http://localhost:8080`
 
-### Google Cloud Run Deployment from source
-
-   ```bash
-   gcloud run deploy my-flask-app \
-     --source ./ \
-     --env-vars-file .env \
-     --region us-central1 \
-     --allow-unauthenticated
-     --port=8080
-   ```
-
-### Google Cloud Run CD from Github
-
-   ```bash
-   gcloud run deploy my-flask-app \
-     --source ./ \
-     --env-vars-file .env \
-     --region us-central1 \
-     --allow-unauthenticated
-     --port=8080
-   ```
 
 
 ## .env file
