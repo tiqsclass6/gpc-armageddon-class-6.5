@@ -2,10 +2,9 @@
 
 A simple Flask web application that displays configurable content using environment variables. With cloud run commands.
 
-
 ## Project Structure
 
-```
+```plaintext
 flask-app/
 ├── main.py                 # Main Flask application
 ├── templates/
@@ -27,6 +26,7 @@ flask-app/
 ## Quick Start
 
 ### Clone and setup
+
    ```bash
    git clone https://github.com/aaron-dm-mcdonald/cloud-run-ex.git
    cd cloud-run-ex
@@ -35,6 +35,7 @@ flask-app/
 ### Local Test
 
 1. **Run the app**
+
    ```bash
    pip install -r requirements.txt
    python main.py
@@ -42,9 +43,8 @@ flask-app/
 
 2. **Visit** `http://localhost:8080`
 
-
-
 ## .env file
+
 ```bash
 HEADER_TEXT="My Awesome App"
 IMAGE_URL=https://picsum.photos/400/300
@@ -66,6 +66,3 @@ FLASK_DEBUG=false
 
 - `gcloud services enable artifactregistry.googleapis.com`
 - `gcloud services enable cloudbuild.googleapis.com`
-
-
-
