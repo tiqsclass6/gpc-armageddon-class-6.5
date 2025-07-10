@@ -1,8 +1,16 @@
-# 🥋 Be A Man Level 10 – Cloud Run Deployment Guide
+# 🥋 Be A Man Level 10 – Full Summary
 
-![Cloud Run](https://img.shields.io/badge/Platform-Google%20Cloud%20Run-blue)
-![CI/CD](https://img.shields.io/badge/CI-CD%20via%20Cloud%20Build-green)
-![Status](https://img.shields.io/badge/Deployment-Complete-success)
+![GCP](https://img.shields.io/badge/cloud-Google%20Cloud-blue)
+![Cloud Run](https://img.shields.io/badge/service-Cloud%20Run-success)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Python](https://img.shields.io/badge/python-3.13-blue)
+![Flask](https://img.shields.io/badge/framework-Flask-red)
+![Status](https://img.shields.io/badge/status-Deployed-success)
+![Version](https://img.shields.io/badge/version-v2.0-yellow)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/tiqsclass6/gcp-be-a-man-level-10)
+![Last Commit](https://img.shields.io/github/last-commit/tiqsclass6/gcp-be-a-man-level-10)
+
+> Deploy a dynamic Python Flask app to Google Cloud Run with traffic splitting, environment configs, and CI/CD via Cloud Build and GitHub triggers.
 
 This guide walks through the deployment of a Flask application to **Google Cloud Run**, with **Cloud Build triggers**, **revision rollouts**, and **traffic splitting** using the `gcloud` CLI and GitHub integration.
 
