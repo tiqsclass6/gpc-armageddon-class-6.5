@@ -1,11 +1,87 @@
+substitutions:
+  _REGION: "asia-northeast1"
+  _SERVICE: "armageddon-service"
+
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Build & push (immutable tag + latest)
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/armageddon-app:$SHORT_SHA', '.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', 'gcr.io/$PROJECT_ID/armageddon-app:$SHORT_SHA']
+  - name: gcr.io/cloud-builders/docker
+    args: ['tag', 'gcr.io/$PROJECT_ID/armageddon-app:$SHORT_SHA', 'gcr.io/$PROJECT_ID/armageddon-app:latest']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', 'gcr.io/$PROJECT_ID/armageddon-app:latest']
+
+  # Deploy branch-specific revision, tag it, then enforce 40/40/10/10 split
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: bash
     args:
-      - -c
-      - |-
-        gcloud run deploy be-a-man-level-10 \
-          --region=asia-northeast1 \
+      - -lc
+      - |
+        set -euo pipefail
+
+        case "${BRANCH_NAME:-dev}" in
+          prod)
+            REV="rev-fight"
+            TAG="fight"
+            HEADER="Fight Smith Til The End"
+            BOTTOM="Morpheus Believes In You Neo"
+            IMAGE_URL="https://i.makeagif.com/media/7-01-2023/c8xnhX.gif"
+            ;;
+          staging)
+            REV="rev-believe"
+            TAG="believe"
+            HEADER="Neo, Believe In Yourself"
+            BOTTOM="The Oracle Always Knew"
+            IMAGE_URL="https://media.giphy.com/media/26ufcYAkpGdhlLrTa/giphy.gif"
+            ;;
+          canary)
+            REV="rev-win"
+            TAG="win"
+            HEADER="This Is Not The End"
+            BOTTOM="Hold The Line—Humanity Depends On You"
+            IMAGE_URL="https://media1.giphy.com/media/3o6ZsX2T0GvY9dZYK8/giphy.gif"
+            ;;
+          *)
+            REV="rev-stand"
+            TAG="stand"
+            HEADER="Smith Is Destroyed"
+            BOTTOM="Zion Stands Strong Thanks To Neo"
+            IMAGE_URL="https://i.makeagif.com/media/7-22-2016/HhnZ6O.gif"
+            ;;
+        esac
+
+        BACKGROUND_IMAGE="https://i.pinimg.com/originals/c5/9a/d2/c59ad2bd4ad2fbacd04017debc679ddb.gif"
+
+        gcloud run deploy "${_SERVICE}" \
+          --image="gcr.io/$PROJECT_ID/armageddon-app:$SHORT_SHA" \
+          --region="${_REGION}" \
+          --platform=managed \
           --allow-unauthenticated \
-          --source=. \
-          --set-env-vars="HEADER_TEXT=Fight Smith Til The End,BOTTOM_TEXT=Morpheus Believes In You Neo,FLASK_DEBUG=false,IMAGE_URL=https://i.makeagif.com/media/7-01-2023/c8xnhX.gif,BACKGROUND_IMAGE=https://i.pinimg.com/originals/c5/9a/d2/c59ad2bd4ad2fbacd04017debc679ddb.gif"
+          --revision-suffix="${REV}" \
+          --set-env-vars=HEADER_TEXT="${HEADER}",BOTTOM_TEXT="${BOTTOM}",FLASK_DEBUG="false",IMAGE_URL="${IMAGE_URL}",BACKGROUND_IMAGE="${BACKGROUND_IMAGE}"
+
+        # Tag revision for stable URL
+        NEW_REV=$(gcloud run revisions list --region="${_REGION}" --service="${_SERVICE}" --format='value(name)' --filter="name~${REV}" | head -n1)
+        if [[ -n "${NEW_REV}" ]]; then
+          gcloud run services update-traffic "${_SERVICE}" \
+            --region="${_REGION}" \
+            --tag=${TAG}=${NEW_REV} --no-traffic
+        fi
+
+        # Enforce 40/40/10/10 traffic split across fight/believe/stand/win
+        R1=$(gcloud run revisions list --region="${_REGION}" --service="${_SERVICE}" --format='value(name)' --filter='name~rev-fight' | head -n1 || true)
+        R2=$(gcloud run revisions list --region="${_REGION}" --service="${_SERVICE}" --format='value(name)' --filter='name~rev-believe' | head -n1 || true)
+        R3=$(gcloud run revisions list --region="${_REGION}" --service="${_SERVICE}" --format='value(name)' --filter='name~rev-stand' | head -n1 || true)
+        R4=$(gcloud run revisions list --region="${_REGION}" --service="${_SERVICE}" --format='value(name)' --filter='name~rev-win' | head -n1 || true)
+
+        if [[ -n "${R1}" && -n "${R2}" && -n "${R3}" && -n "${R4}" ]]; then
+          gcloud run services update-traffic "${_SERVICE}" \
+            --region="${_REGION}" \
+            --to-revisions=${R1}=40,${R2}=40,${R3}=10,${R4}=10
+        fi
+
+images:
+  - gcr.io/$PROJECT_ID/armageddon-app:$SHORT_SHA
+  - gcr.io/$PROJECT_ID/armageddon-app:latest

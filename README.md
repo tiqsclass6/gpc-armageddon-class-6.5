@@ -1,4 +1,4 @@
-# 🥋 Be A Man Level 10 – Full Summary
+# 🛡 Armageddon – Full Summary
 
 ![GCP](https://img.shields.io/badge/cloud-Google%20Cloud-blue)
 ![Cloud Run](https://img.shields.io/badge/service-Cloud%20Run-success)
@@ -6,75 +6,148 @@
 ![Python](https://img.shields.io/badge/python-3.13-blue)
 ![Flask](https://img.shields.io/badge/framework-Flask-red)
 ![Status](https://img.shields.io/badge/status-Deployed-success)
-![Version](https://img.shields.io/badge/version-v2.0-yellow)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/tiqsclass6/gcp-be-a-man-level-10)
-![Last Commit](https://img.shields.io/github/last-commit/tiqsclass6/gcp-be-a-man-level-10)
+![Version](https://img.shields.io/badge/version-v3.0-yellow)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/tiqsclass6/gpc-armageddon)
+![Last Commit](https://img.shields.io/github/last-commit/tiqsclass6/gpc-armageddon)
 
-> Deploy a dynamic Python Flask app to Google Cloud Run with traffic splitting, environment configs, and CI/CD via Cloud Build and GitHub triggers.
 
-This guide walks through the deployment of a Flask application to **Google Cloud Run**, with **Cloud Build triggers**, **revision rollouts**, and **traffic splitting** using the `gcloud` CLI and GitHub integration.
-
----
-
-## 🧭 Project Summary
-
-The **Be‑A‑Man‑Level‑10** project is a Python Flask-based web application deployed to **Google Cloud Run** using a CI/CD workflow powered by **Google Cloud Build** and **GitHub**. The application is structured around a dual-branch deployment strategy, where versioned branches (`be-a-man-level-10-v1` and `be-a-man-level-10-v2`) represent distinct revisions of the application. These revisions are built and deployed either manually via the `gcloud run deploy` CLI or automatically via GitHub-triggered Cloud Build pipelines.
-
-The app dynamically renders content based on environment variables, which are configured at deployment time. Once deployed, revisions can be managed through **Cloud Run traffic splitting**, allowing the developer to direct specific percentages of user traffic to different versions of the service (e.g., **50/50 rollout**). This enables controlled testing, rollback, and revision monitoring without downtime. The architecture is lightweight, serverless, and regionally deployed in `asia-northeast1`, leveraging Google's managed infrastructure for scalability and security.
+> Deploy a dynamic Python Flask app to Google Cloud Run with CI/CD, four tagged revisions, and traffic splitting.
 
 ---
 
 ## 📚 References & Documentation
 
-- **Cloud Run:**
+- **Cloud Run**  
   - [Allowing Unauthenticated Access](https://cloud.google.com/run/docs/authenticating/public)  
-  - [Cloud Run Environment Variable Behavior](https://cloud.google.com/run/docs/configuring/environment-variables)  
-  - [Cloud Run IAM Permissions](https://cloud.google.com/run/docs/securing/managing-access)  
-  - [Cloud Run Traffic Splitting](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration)  
+  - [Environment Variable Behavior](https://cloud.google.com/run/docs/configuring/environment-variables)  
+  - [Traffic Splitting](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration)  
+  - [Tagging Revisions](https://cloud.google.com/run/docs/deploying/tagging-revisions)  
 
-- **Cloud Build:**
+- **Cloud Build**  
   - [Connect GitHub to Cloud Build](https://cloud.google.com/build/docs/automating-builds/github/connect-repo-github)  
-  - [Deploying Services to Cloud Run](https://cloud.google.com/run/docs/deploying)  
-  - [Deploying to Cloud Run with Cloud Build](https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)  
+  - [Deploying to Cloud Run](https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)  
 
-- **Flask:**
-  - [Flask Documentation](https://flask.palletsprojects.com/en/stable/)  
+- **Flask**  
+  - [Flask Documentation](https://flask.palletsprojects.com/)  
 
-- **Google Cloud SDK References:**
-  - [gcloud builds triggers create github](https://cloud.google.com/sdk/gcloud/reference/builds/triggers/create/github)  
-  - [gcloud run deploy](https://cloud.google.com/sdk/gcloud/reference/run/deploy)  
-  - [gcloud run services describe](https://cloud.google.com/sdk/gcloud/reference/run/services/describe)  
-  - [gcloud run services update-traffic](https://cloud.google.com/sdk/gcloud/reference/run/services/update-traffic)  
-
-- **GitHub:**
-  - [Git - The Simple Guide](https://rogerdudler.github.io/git-guide/)  
-  - [Git Branching and Merging](https://www.atlassian.com/git/tutorials/using-branches)  
-  - [GitHub Docs – About repositories](https://docs.github.com/en/repositories)  
-  - [GCP Cloud Builders (GitHub Repo)](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcloud)  
-
-- **Python:**
-  - [python-dotenv (GitHub Repo)](https://github.com/theskumar/python-dotenv)  
+- **Python**  
+  - [python-dotenv](https://github.com/theskumar/python-dotenv)  
   - [Using `.env` Files in Flask Apps](https://flask.palletsprojects.com/en/latest/config/#environment-and-dotenv-files)  
-  - [Building a Cloud Build Configuration YAML](https://cloud.google.com/build/docs/build-config-file-schema)  
-  - [Using `os.environ` in Python](https://docs.python.org/3/library/os.html#os.environ)
+
+---
+
+## 🧭 Project Summary
+
+The **Armageddon App** is a Python Flask-based web application deployed to **Google Cloud Run** as the service `armageddon-service`.  
+It uses **Cloud Build** triggers tied to GitHub branches for automated deployments of four distinct revisions.  
+
+- **rev-fight → tag: fight**  
+- **rev-believe → tag: believe**  
+- **rev-stand → tag: stand**  
+- **rev-win → tag: win**  
+
+The CI/CD pipeline builds the container image (`armageddon-app`) and deploys it automatically. Once all four revisions exist, Cloud Build enforces a **40/40/10/10 split** across them.  
+
+Tagged URLs let you access each revision directly, independent of traffic percentages:
+
+```plaintext
+https://fight---armageddon-service-asia-northeast1.a.run.app
+https://believe---armageddon-service-asia-northeast1.a.run.app
+https://stand---armageddon-service-asia-northeast1.a.run.app
+https://win---armageddon-service-asia-northeast1.a.run.app
+```
 
 ---
 
 ## 🌿 Repository Branches
 
-The GitHub repo `tiqsclass6/gcp-be-a-man-level-10` contains two main branches:
+The GitHub repo `tiqsclass6/gpc-armageddon` uses four deployment branches:
 
-### 🔹 [`be-a-man-level-10-v1`](https://github.com/tiqsclass6/gcp-be-a-man-level-10/tree/be-a-man-level-10-v1)
+- `rev-fight` → tag: **fight**  
+- `rev-believe` → tag: **believe**  
+- `rev-stand` → tag: **stand**  
+- `rev-win` → tag: **win**  
 
-- Basic Flask app  
-- Default environment values  
-- Cloud Run v1 deployable
+Each branch maps to a `.env` file (`.env.fight`, `.env.believe`, `.env.stand`, `.env.win`) for local testing consistency.  
 
-### 🔹 [`be-a-man-level-10-v2`](https://github.com/tiqsclass6/gcp-be-a-man-level-10/tree/be-a-man-level-10-v2)
+---
 
-- Enhanced content via environment vars (e.g., `"Fight Smith Til The End"`)
-- Includes `cloudbuild.yaml` for automated builds  
-- Ready for second Cloud Run revision and traffic split
+## 📂 Project Structure
+
+```plaintext
+gpc-armageddon/
+│
+├── main.py                # Flask application entrypoint
+├── requirements.txt       # Python dependencies
+├── templates/
+│   └── index.html         # HTML with placeholders for env vars
+├── .env.fight             # Local environment for rev-fight
+├── .env.believe           # Local environment for rev-believe
+├── .env.stand             # Local environment for rev-stand
+├── .env.win               # Local environment for rev-win
+├── cloudbuild.yaml        # CI/CD pipeline for Cloud Build
+└── README.md              # Project documentation
+```
+
+---
+
+## 🚀 Steps to Complete the Lab
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/tiqsclass6/gpc-armageddon
+   cd gpc-armageddon
+   ```
+
+2. **Enable Google Cloud APIs**
+
+   ```bash
+   gcloud services enable \
+    run.googleapis.com \
+    cloudbuild.googleapis.com \
+    artifactregistry.googleapis.com
+   ```
+
+3. **Create an Artifact Registry (optional if using gcr.io)**
+
+   ```bash
+   gcloud artifacts repositories create armageddon-repo \
+    --repository-format=docker \
+    --location=asia-northeast1 \
+    --description="Docker repo for Armageddon app"
+   ```
+
+4. **Connect GitHub Repo to Cloud Build**
+   - In the Cloud Console → Cloud Build → Triggers → Connect Repository.  
+   - Select `tiqsclass6/gpc-armageddon`.  
+   - Add triggers for branches: `fight`, `believe`, `stand`, `win`.  
+
+5. **Deploy Automatically via Triggers**
+   - Each branch pushes a Docker image `armageddon-app` and deploys to `armageddon-service`.  
+   - Revisions and tags are applied automatically.  
+
+6. **Check Deployment**
+
+   ```bash
+   gcloud run services describe armageddon-service \
+    --region=asia-northeast1
+   ```
+
+7. **Access Tagged URLs**
+   - Fight: <https://fight---armageddon-service-asia-northeast1.a.run.app>  
+   - Believe: <https://believe---armageddon-service-asia-northeast1.a.run.app>  
+   - Stand: <https://stand---armageddon-service-asia-northeast1.a.run.app>  
+   - Win: <https://win---armageddon-service-asia-northeast1.a.run.app>  
+
+8. **Verify Traffic Split**
+
+   ```bash
+   gcloud run services update-traffic armageddon-service \
+    --region=asia-northeast1 \
+    --to-revisions=rev-fight=40,rev-believe=40,rev-stand=10,rev-win=10
+   ```
 
 ---
 
@@ -82,17 +155,14 @@ The GitHub repo `tiqsclass6/gcp-be-a-man-level-10` contains two main branches:
 
 | Issue | Solution |
 |-------|----------|
-| `source URL not found` | Use `--source=.` with a **local clone** |
-| `beta command not found` | Run Google Cloud SDK Shell as Admin and install with `gcloud components install beta` |
-| `no connected repo` | Use Cloud Console to connect GitHub via Cloud Build |
-| `invalid revision name` | List actual revisions with `gcloud run revisions list` |
-| `traffic split fails` | Ensure **2+ revisions exist**, and revision names match exactly |
+| `traffic split fails` | Ensure all four revisions exist (`rev-fight`, `rev-believe`, `rev-stand`, `rev-win`). |
+| `tag URL not working` | Confirm tags applied with `gcloud run services update-traffic --tag`. |
+| `invalid revision name` | List existing revisions with `gcloud run revisions list`. |
+| `no connected repo` | Reconnect GitHub via Cloud Build Console. |
 
 ---
 
 ## ✍️ Authors & Acknowledgments
 
-- **Author:** T.I.Q.S.
-- **Group Leader:** John Sweeney
-
----
+- **Author:** T.I.Q.S.  
+- **Group Leader:** John Sweeney  
