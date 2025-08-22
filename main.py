@@ -1,23 +1,30 @@
+from flask import Flask, render_template
 import os
-from flask import Flask, render_template, jsonify
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
+
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template(
-        "index.html",
-        header_text=os.getenv("HEADER_TEXT", "Hello from Armageddon"),
-        bottom_text=os.getenv("BOTTOM_TEXT", "Deployed with Buildpacks"),
-        image_url=os.getenv("IMAGE_URL", ""),
-        background_image=os.getenv("BACKGROUND_IMAGE", "")
-    )
+@app.route('/')
+def home():
+    # Get the header text from environment variable
+    header_text = os.getenv('HEADER_TEXT', 'Welcome to Flask!')
+    # Get the image URL from environment variable
+    image_url = os.getenv('IMAGE_URL', '')
+    return render_template('index.html', header_text=header_text, image_url=image_url)
 
-@app.route("/health")
+@app.route('/health')
 def health():
-    return jsonify({"status": "healthy"}), 200
+    return {'status': 'healthy'}, 200
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", "8080")))
+if __name__ == '__main__':
+    port = int(os.getenv('PORT', 5000))
+    debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    app.run(
+        host='0.0.0.0',
+        port=port,
+        debug=debug
+    )
