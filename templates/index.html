@@ -3,56 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armageddon 2 - Flask App</title>
+    <title>Armageddon Task 2 - Flask App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: url('{{ background_image }}') no-repeat center center fixed;
+            background-size: cover;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .container {
-            background: white;
+            background: rgba(0, 0, 0, 0.9);
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
             max-width: 600px;
             width: 90%;
         }
         h1 {
-            color: #333;
+            color:#00ff00;
             margin-bottom: 1rem;
             font-size: 2.5rem;
         }
         .info {
-            background: #f8f9fa;
+            background: rgba(20, 20, 20, 0.95);
             padding: 1rem;
             border-radius: 5px;
             margin-top: 1rem;
         }
         .info p {
             margin: 0.5rem 0;
-            color: #666;
+            color:#b2f5b2;
         }
         .status {
             display: inline-block;
-            background: #28a745;
-            color: white;
+            background:#00c853;
+            color: black;
             padding: 0.25rem 0.75rem;
             border-radius: 15px;
             font-size: 0.9rem;
             margin-top: 1rem;
+            font-weight: bold;
         }
         .image-container {
             margin: 1.5rem 0;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
         .app-image {
             max-width: 100%;
@@ -61,6 +63,29 @@
             object-fit: cover;
             display: block;
             margin: 0 auto;
+        }
+        .bottom-text {
+            margin-top: 2rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color:#00ff00;
+        }
+        .status-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .status {
+            background:#00c853;
+            color: black;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            min-width: 100px;
+            text-align: center;
         }
     </style>
 </head>
@@ -79,7 +104,16 @@
             <p>This app uses environment variables for configuration.</p>
             <p>Ready for deployment to Google Cloud Run.</p>
         </div>
-        <div class="status">🚀 Status: Active</div>
+        <div class="status-row">
+            <div class="status">💾 Pride: Strong</div>
+            <div class="status">🚀 Difficulty: Tough</div>
+            <div class="status">🛰️ Endurance: 70%</div>
+        </div>
+
+
+        {% if bottom_text %}
+        <div class="bottom-text">{{ bottom_text }}</div>
+        {% endif %}
     </div>
 </body>
 </html>
