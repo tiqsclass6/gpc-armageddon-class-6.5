@@ -40,6 +40,16 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 ---
 
+## 🛠️ Tech Stack
+
+- **Python 3**  
+- **Flask**  
+- **Google Cloud Run** (serverless deployment)  
+- **Google Cloud Build** (CI/CD pipeline)  
+- **Terraform** (networking & compute for Tasks 1 and 3)
+
+---
+
 ## 🔗 Branches
 
 ### [`Task 1 Branch`](https://github.com/tiqsclass6/gpc-armageddon/tree/task-1)
@@ -60,26 +70,33 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 **Task 2 — Cloud Run with Traffic Splitting (Be a Man #10):**
 
-Task 2 demonstrates the following:
+> This task implements a Flask app deployed on **Google Cloud Run** with traffic split across **four revisions** at **40% / 40% / 10% / 10%**. It includes CI/CD via **Cloud Build** and a full set of screenshots and docs.
 
-- Deploy the app to **Cloud Run** and split traffic across **four applications/revisions** at **40% / 40% / 10% / 10%**.
-- Implementation references and rubric: <https://github.com/aaron-dm-mcdonald/cloud-run-ex/blob/main/assignment.md>
-- Code and screenshots for this task live on the **`task-2` branch** (see link below).
+### What’s included in `task-2`
 
-- Building and deploying a **Flask web application** on **Google Cloud Run**.  
-- Integration with **Google Cloud Build** for automated builds from GitHub commits.  
-- Application structure including:
-  - `main.py` Flask entrypoint  
-  - `templates/index.html` for HTML rendering  
-  - `.env` configuration for environment variables  
-  - `requirements.txt` for Python dependencies  
-  - `Screenshots/` folder with deployment evidence (Cloud Run revisions, traffic splitting, Cloud Build logs, and GitHub confirmation).  
-- Cloud Run **traffic splitting across multiple revisions** (40% / 40% / 10% / 10%).  
-- README with:
-  - Project structure  
-  - Deployment instructions  
-  - Troubleshooting guide  
-  - Screenshots
+- **Cloud Run deployment** of a Flask web app using **Google Cloud Buildpacks**.
+- **Traffic splitting across four revisions** (v1, v2, v3, v4) at **40/40/10/10** using revision tags.
+- **Environment-based variants** (set in *Variables & Secrets* per revision):
+  - v1: “You Are The One Neo”
+  - v2: “Fight Smith Until the End”
+  - v3: “Don’t Give Up”
+  - v4: “Smith Is Destroyed”
+- **CI/CD with Cloud Build**: repository-connected trigger that builds and deploys on commit.
+- **Documentation & evidence**: screenshots of Cloud Build, service config, revision env vars, and traffic split.
+
+### Repo layout (key files)
+
+- `main.py` — Flask entrypoint  
+- `templates/index.html` — UI template (Matrix background + dynamic text via env vars)  
+- `.env` — example environment values (do not commit secrets)  
+- `requirements.txt` — Python deps  
+- `Screenshots/` — deployment evidence (e.g., `cloud-run-from-github.jpg`, `cloud-run-with-revisions.jpg`, `cloud-run-split-traffic-revisions.jpg`, `armageddon-app-v1..v4.jpg`, `diagram.png`)  
+- `README.md` — step-by-step guide, troubleshooting, and screenshot links
+
+### References
+
+- Assignment/rubric: <https://github.com/aaron-dm-mcdonald/cloud-run-ex/blob/main/assignment.md>
+- Working branch with code & screenshots: <https://github.com/tiqsclass6/gpc-armageddon/tree/task-2>
 
 ### [`Task 3 Branch`](https://github.com/tiqsclass6/gpc-armageddon/tree/task-3)
 
@@ -92,16 +109,6 @@ Task 2 demonstrates the following:
 - Provide a **Terraform file per participant** with comments.
 
 > ℹ️ This main branch serves as the landing page and coordination space. Detailed app code for Task 2 is on the branch below.
-
----
-
-## 🛠️ Tech Stack
-
-- **Python 3**  
-- **Flask**  
-- **Google Cloud Run** (serverless deployment)  
-- **Google Cloud Build** (CI/CD pipeline)  
-- **Terraform** (networking & compute for Tasks 1 and 3)
 
 ---
 
