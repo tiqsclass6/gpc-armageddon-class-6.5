@@ -1,4 +1,4 @@
-# 🌍 Armageddon Task 3 – Multi-Region GCP Infrastructure
+# Armageddon Task 3 – Multi-Region LB
 
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-blueviolet?logo=terraform)
 ![Google Cloud](https://img.shields.io/badge/Cloud-GCP-yellow?logo=googlecloud)
@@ -14,7 +14,7 @@
 
 Complete [Be a Man 5](https://github.com/tiqsclass6/gcp-be-a-man-level-5), but now creating a **Linux VM**** in a separate region for each region. **Firewall tag** for each Linux VM must be named after each region, and the **Windows VM** must be able to access all Linux VMs.
 
-**Step-by-Step Guide** must be provided within the [README.md](https://github.com/tiqsclass6/gcp-armageddon/tree/task-3/README.md) for Task 3. There must be a `.tf` file for each region, complete with comments. **`This will be in terraform!!`**
+**Step-by-Step Guide** must be provided within the [README.md](https://github.com/tiqsclass6/gpc-armageddon/blob/task-3/README.md) for Task 3. There must be a `.tf` file for each region, complete with comments. **`This will be in terraform!!`**
 
 ---
 
