@@ -213,4 +213,4 @@ terraform destroy -auto-approve
 - Sensei **"Darth Malgus" Theo**
 - Lord **Beron**
 - Sir **Rob**
-- Jedi Master **Derrick*
+- Jedi Master **Derrick**
