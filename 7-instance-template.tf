@@ -1,7 +1,7 @@
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_template
 
 # Brazil Instance Template
-esource "google_compute_instance_template" "brazil-instance-template" {
+resource "google_compute_instance_template" "brazil-instance-template" {
   name         = "brazil"
   description  = "Brazil Instance Template"
   machine_type = "e2-medium"
