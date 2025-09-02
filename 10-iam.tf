@@ -15,5 +15,5 @@ resource "google_project_iam_member" "balerica_vpn_access" {
   provider = google.wolfpack
   project  = var.wolfpack_project
   role     = google_project_iam_custom_role.vpn_access_role.id
-  member   = "serviceAccount:terraform-service@class-6-5-tiqs.iam.gserviceaccount.com"
+  member   = "serviceAccount:terraform-service@<project_id>.iam.gserviceaccount.com"
 }

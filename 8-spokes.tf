@@ -1,23 +1,8 @@
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/network_connectivity_spoke
 
 # =================================================
-#               Balerica VPN Spoke
+#              Balerica VPN Spokes
 # =================================================
-
-resource "google_network_connectivity_spoke" "vpn_spoke" {
-  provider = google.wolfpack
-  name     = "balerica-vpn-spoke"
-  location = var.region_wolfpack
-  hub      = google_network_connectivity_hub.wolfpack.id
-  linked_vpn_tunnels {
-    uris = [
-      google_compute_vpn_tunnel.wolfpack_tunnel0.self_link,
-      google_compute_vpn_tunnel.wolfpack_tunnel1.self_link,
-    ]
-    site_to_site_data_transfer = true
-  }
-  description = "Balerica Spoke for HA VPN"
-}
 
 # Cassiem VPC Spoke
 resource "google_network_connectivity_spoke" "cassiem_spoke" {
@@ -56,7 +41,7 @@ resource "google_network_connectivity_spoke" "uriah_spoke" {
 }
 
 # =================================================
-#               Wolfpack NCC Hub
+#               Wolfpack NCC Spoke
 # =================================================
 
 resource "google_network_connectivity_spoke" "wolfpack_spoke" {
@@ -108,4 +93,23 @@ resource "google_network_connectivity_spoke" "brian_spoke" {
     uri = google_compute_network.brian_vpc.self_link
   }
   description = "Brian VPC Spoke"
+}
+
+# =================================================
+#               Balerica VPN Spoke
+# =================================================
+
+resource "google_network_connectivity_spoke" "vpn_spoke" {
+  provider = google.wolfpack
+  name     = "balerica-vpn-spoke"
+  location = var.region_wolfpack
+  hub      = google_network_connectivity_hub.wolfpack.id
+  linked_vpn_tunnels {
+    uris = [
+      google_compute_vpn_tunnel.wolfpack_tunnel0.self_link,
+      google_compute_vpn_tunnel.wolfpack_tunnel1.self_link,
+    ]
+    site_to_site_data_transfer = true
+  }
+  description = "Balerica Spoke for HA VPN"
 }
