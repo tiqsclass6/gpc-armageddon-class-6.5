@@ -75,7 +75,7 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 ### [`Task 1 Branch`](https://github.com/tiqsclass6/gpc-armageddon/tree/task-1)
 
-![task1-diagrams](/Diagrams/task1-diagram.png)
+![task1-diagrams](/diagrams/task1-diagram.png)
 
 **Task 1 — Multi‑Account VPN + Ring Topology (Terraform):**
 
@@ -93,7 +93,7 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 ### [`Task 2 Branch`](https://github.com/tiqsclass6/gpc-armageddon/tree/task-2)
 
-![task2-diagrams](/Diagrams/task2-diagram.png)
+![task2-diagrams](/diagrams/task2-diagram.png)
 
 **Task 2 — Cloud Run with Traffic Splitting (Be a Man #10):**
 
@@ -122,7 +122,7 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 ### [`Task 3 Branch`](https://github.com/tiqsclass6/gpc-armageddon/tree/task-3)
 
-![task3-diagrams](/Diagrams/task3-diagram.png)
+![task3-diagrams](/diagrams/task3-diagram.png)
 
 **Task 3 — Regional Scale‑Out VMs + Connectivity in Terraform (Be A Man #5):**
 
