@@ -30,7 +30,7 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 - HashiCorp Terraform Docs: [Provider Configuration](https://developer.hashicorp.com/terraform/language/providers/configuration)  
 - AstraFy Blog: [Using Multiple Credentials in Terraform](https://astrafy.io/the-hub/blog/technical/terraform-provider-using-multiple-credentials)  
 
-### Task 2 — Cloud Run with Traffic Splitting (Be a Man #10)
+### Task 2 — Cloud Run with Traffic Splitting (Be a Man 10)
 
 - GitHub: [Assignment Guide — Cloud Run Example](https://github.com/aaron-dm-mcdonald/cloud-run-ex/blob/main/assignment.md)  
 - Google Cloud Docs: [Deploying from Source to Cloud Run](https://cloud.google.com/run/docs/deploying-source-code)  
@@ -124,7 +124,7 @@ This repository contains the **Armageddon App**, a Python Flask application and 
 
 ![task3-diagrams](/diagrams/task3-diagram.png)
 
-**Task 3 — Regional Scale‑Out VMs + Connectivity in Terraform (Be A Man #5):**
+**Task 3 — Regional Scale‑Out VMs + Connectivity in Terraform (Be A Man 5):**
 
 - Create a **Linux VM in a separate region for each group member**.
 - Use a **firewall tag named after each member** for the member’s Linux VM.
