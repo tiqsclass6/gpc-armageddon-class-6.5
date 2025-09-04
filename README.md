@@ -1,4 +1,4 @@
-# Armageddon Task 1 - HA VPN with NCC via Hub-and-Spoke (in Terraform)
+# Armageddon Task 1 - HA VPN with NCC via Hub-and-Spokes (in Terraform)
 
 ![Terraform](https://img.shields.io/badge/Terraform-v1.5%2B-blue?logo=terraform)
 ![GCP](https://img.shields.io/badge/GCP-Networking-orange?logo=googlecloud)
