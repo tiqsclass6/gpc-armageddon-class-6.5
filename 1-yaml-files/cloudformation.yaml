@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: VPC, Subnet, and Site-to-Site VPN (Customer Gateway + VGW) with route propagation
+
+Parameters:
+  NamePrefix:
+    Type: String
+    Default: balerica
+  VpcCidr:
+    Type: String
+    Default: 10.230.0.0/16
+  SubnetCidr:
+    Type: String
+    Default: 10.230.1.0/24
+  # Your on-premises public IP for the Customer Gateway (must be static, not behind NAT)
+  CustomerGatewayIp:
+    Type: String
+    Description: Static public IP of the on-premises VPN device (e.g., 198.51.100.10)
+  CustomerBgpAsn:
+    Type: Number
+    Default: 65000
+    Description: Private ASN for your on-prem router (e.g., 65000)
+  AmazonSideAsn:
+    Type: Number
+    Default: 64512
+    Description: Amazon side ASN for the VGW (64512–65534 or 4200000000–4294967294)
+  UseStaticRoutes:
+    Type: String
+    AllowedValues: ["true","false"]
+    Default: "false"
+    Description: Set to "true" to use static routes instead of BGP
+  # Only needed if using static routes
+  OnPremRouteCidr:
+    Type: String
+    Default: 192.168.0.0/16
+    Description: On-prem network to route over the VPN when UseStaticRoutes=true
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-vpc' }]
+
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref SubnetCidr
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-subnet-a' }]
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-rtb' }]
+
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref RouteTable
+
+  VPNGateway:
+    Type: AWS::EC2::VPNGateway
+    Properties:
+      Type: ipsec.1
+      AmazonSideAsn: !Ref AmazonSideAsn
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-vgw' }]
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      VpnGatewayId: !Ref VPNGateway
+
+  CustomerGateway:
+    Type: AWS::EC2::CustomerGateway
+    Properties:
+      BgpAsn: !Ref CustomerBgpAsn
+      IpAddress: !Ref CustomerGatewayIp
+      Type: ipsec.1
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-cgw' }]
+
+  VPNConnection:
+    Type: AWS::EC2::VPNConnection
+    Properties:
+      Type: ipsec.2
+      CustomerGatewayId: !Ref CustomerGateway
+      VpnGatewayId: !Ref VPNGateway
+      StaticRoutesOnly: !Equals [ !Ref UseStaticRoutes, "true" ]
+      Tags: [{ Key: Name, Value: !Sub '${NamePrefix}-vpn' }]
+
+  # Propagate VGW routes into your route table (for BGP / dynamic routing)
+  VPNGatewayRoutePropagation:
+    Type: AWS::EC2::VPNGatewayRoutePropagation
+    Condition: UseDynamicRouting
+    Properties:
+      RouteTableIds: [ !Ref RouteTable ]
+      VpnGatewayId: !Ref VPNGateway
+
+  # Add a static route to the VPN when using static routing
+  VPNConnectionRoute:
+    Type: AWS::EC2::VPNConnectionRoute
+    Condition: UseStaticRouting
+    Properties:
+      VpnConnectionId: !Ref VPNConnection
+      DestinationCidrBlock: !Ref OnPremRouteCidr
+
+Conditions:
+  UseStaticRouting: !Equals [ !Ref UseStaticRoutes, "true" ]
+  UseDynamicRouting: !Not [ !Equals [ !Ref UseStaticRoutes, "true" ] ]
+
+Outputs:
+  VpcId:
+    Value: !Ref VPC
+  SubnetId:
+    Value: !Ref Subnet
+  RouteTableId:
+    Value: !Ref RouteTable
+  VpnGatewayId:
+    Value: !Ref VPNGateway
+  CustomerGatewayId:
+    Value: !Ref CustomerGateway
+  VpnConnectionId:
+    Value: !Ref VPNConnection

@@ -1,0 +1,44 @@
+# ================================
+# File: buildspec.yaml
+# CodeBuild: build Maven app, build & push Docker image to ECR, emit imagedefinitions.json
+# ================================
+version: 0.2
+
+env:
+  variables:
+    IMAGE_REPO_NAME: secure-browser
+    IMAGE_TAG: latest
+  # Ensure AWS_REGION and AWS_ACCOUNT_ID are set in CodeBuild environment variables
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+  pre_build:
+    commands:
+      - echo "Setting repository URI..."
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - echo "Repository URI: $REPOSITORY_URI"
+
+  build:
+    commands:
+      - echo "Building Java application..."
+      - mvn -B -DskipTests clean package
+      - echo "Building Docker image..."
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - echo "Pushing Docker image to ECR..."
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "Writing image definitions for deployment..."
+      - printf '[{"name":"secure-browser","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
